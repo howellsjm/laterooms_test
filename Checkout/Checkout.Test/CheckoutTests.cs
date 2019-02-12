@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Moq;
 using NUnit.Framework;
 
 namespace Checkout.Test
@@ -47,8 +48,10 @@ namespace Checkout.Test
             var wrapper = new CheckoutTestWrapper();
             wrapper.SetupServices();
 
-            var target = wrapper.GetTarget();
+            wrapper.MockUnitService.Setup(x => x.ValidateUnit(It.IsAny<string>())).Returns(false);
 
+            var target = wrapper.GetTarget();
+            
             var ex = Assert.Throws<ArgumentOutOfRangeException>(() => target.Scan("A"));
 
             Assert.IsTrue(ex.Message.Contains("Invalid Stock Keeping Unit"));

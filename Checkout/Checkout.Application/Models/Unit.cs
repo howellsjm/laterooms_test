@@ -9,6 +9,6 @@ namespace Checkout.Application.Models
     public class Unit
     {
         public string StockKeepingUnit { get; set; }
-        public decimal Price { get; set; }
+        public int Price { get; set; }
     }
 }

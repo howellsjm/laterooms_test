@@ -49,7 +49,7 @@ namespace Checkout.Test
 
         public ICheckout GetTarget()
         {
-            return new CheckoutService();
+            return new CheckoutService(MockUnitService.Object);
         }
     }
 }
