@@ -60,25 +60,104 @@ namespace Checkout.Test
         [Test]
         public void GetTotalPrice_Returns_Total_Price_Of_Items_In_Basket()
         {
+            var wrapper = new CheckoutTestWrapper();
+            wrapper.SetupServices();
 
+            var target = wrapper.GetTarget();
+
+            Assert.Zero(target.GetTotalPrice());
+
+            target.Scan("A");
+            target.Scan("B");
+            target.Scan("C");
+            target.Scan("D");
+
+            var result = target.GetTotalPrice();
+            Assert.NotZero(result);
+            Assert.AreEqual(115, result);
         }
 
         [Test]
         public void GetTotalPrice_If_Offer_Valid_Returns_Offer_Price()
         {
+            var wrapper = new CheckoutTestWrapper();
+            wrapper.SetupServices();
 
+            var target = wrapper.GetTarget();
+
+            Assert.Zero(target.GetTotalPrice());
+
+            target.Scan("A");
+            target.Scan("A");
+            target.Scan("A");
+
+            var result = target.GetTotalPrice();
+            Assert.NotZero(result);
+            Assert.AreEqual(130, result);
         }
 
         [Test]
         public void GetTotalPrice_If_Offer_Valid_With_Non_Sequential_Items_Calculates_Correctly()
         {
+            var wrapper = new CheckoutTestWrapper();
+            wrapper.SetupServices();
 
+            var target = wrapper.GetTarget();
+
+            Assert.Zero(target.GetTotalPrice());
+
+            target.Scan("A");
+            target.Scan("C");
+            target.Scan("A");
+            target.Scan("D");
+            target.Scan("A");
+
+            var result = target.GetTotalPrice();
+            Assert.NotZero(result);
+            Assert.AreEqual(165, result);
         }
 
         [Test]
         public void GetTotalPrice_If_Offer_Valid_And_Items_Outside_Offer_Calculates_Correctly()
         {
+            var wrapper = new CheckoutTestWrapper();
+            wrapper.SetupServices();
 
+            var target = wrapper.GetTarget();
+
+            Assert.Zero(target.GetTotalPrice());
+
+            target.Scan("B");
+            target.Scan("C");
+            target.Scan("B");
+            target.Scan("D");
+            target.Scan("B");
+
+            var result = target.GetTotalPrice();
+            Assert.NotZero(result);
+            Assert.AreEqual(110, result);
+        }
+
+        [Test]
+        public void GetTotalPrice_If_Multiple_Offers_On_Item_Valid_Calculates_Correctly()
+        {
+            var wrapper = new CheckoutTestWrapper();
+            wrapper.SetupServices();
+
+            var target = wrapper.GetTarget();
+
+            Assert.Zero(target.GetTotalPrice());
+
+            target.Scan("B");
+            target.Scan("C");
+            target.Scan("B");
+            target.Scan("D");
+            target.Scan("B");
+            target.Scan("B");
+
+            var result = target.GetTotalPrice();
+            Assert.NotZero(result);
+            Assert.AreEqual(125, result);
         }
     }
 }
