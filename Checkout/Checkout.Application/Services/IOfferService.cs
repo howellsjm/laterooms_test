@@ -9,6 +9,6 @@ namespace Checkout.Application.Services
 {
     public interface IOfferService
     {
-        IEnumerable<Offer> GetOffers(IEnumerable<string> skus);
+        IEnumerable<Offer> GetOffers(IEnumerable<string> items);
     }
 }

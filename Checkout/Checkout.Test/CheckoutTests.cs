@@ -1,4 +1,5 @@
 ﻿using System;
+using System.CodeDom;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -13,19 +14,44 @@ namespace Checkout.Test
         [Test]
         public void Scan_Adds_Item_To_Basket_GetTotalPrice_Returns_Price()
         {
+            var wrapper = new CheckoutTestWrapper();
+            wrapper.SetupServices();
 
+            var target = wrapper.GetTarget();
+
+            Assert.Zero(target.GetTotalPrice());
+
+            target.Scan("A");
+
+            var result = target.GetTotalPrice();
+            Assert.NotZero(result);
+            Assert.AreEqual(50, result);
         }
 
         [Test]
         public void Scan_Checks_Item_Code()
         {
+            var wrapper = new CheckoutTestWrapper();
+            wrapper.SetupServices();
 
+            var target = wrapper.GetTarget();
+
+            target.Scan("A");
+
+            wrapper.MockUnitService.Verify(x => x.ValidateUnit("A"));
         }
 
         [Test]
-        public void Scan_If_Item_Not_Recognised_ThrowsException()
+        public void Scan_If_Item_Not_Valid_ThrowsException()
         {
+            var wrapper = new CheckoutTestWrapper();
+            wrapper.SetupServices();
 
+            var target = wrapper.GetTarget();
+
+            var ex = Assert.Throws<ArgumentOutOfRangeException>(() => target.Scan("A"));
+
+            Assert.IsTrue(ex.Message.Contains("Invalid Stock Keeping Unit"));
         }
 
         [Test]

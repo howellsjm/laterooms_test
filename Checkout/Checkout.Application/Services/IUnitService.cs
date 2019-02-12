@@ -10,6 +10,7 @@ namespace Checkout.Application.Services
 {
     public interface IUnitService
     {
-        IEnumerable<Unit> GetUnits(IEnumerable<string> skus);
+        bool ValidateUnit(string item);
+        IEnumerable<Unit> GetUnits(IEnumerable<string> items);
     }
 }
