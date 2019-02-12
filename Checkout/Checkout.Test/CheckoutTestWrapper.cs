@@ -33,8 +33,8 @@ namespace Checkout.Test
 
             Offers = new List<Offer>
             {
-                new Offer {StockKeepingUnit = "A", Quantity = 3, Price = 50},
-                new Offer {StockKeepingUnit = "B", Quantity = 2, Price = 30}
+                new Offer {StockKeepingUnit = "A", Quantity = 3, Price = 130},
+                new Offer {StockKeepingUnit = "B", Quantity = 2, Price = 45}
             };
         }
 
@@ -49,7 +49,7 @@ namespace Checkout.Test
 
         public ICheckout GetTarget()
         {
-            return new CheckoutService(MockUnitService.Object);
+            return new CheckoutService(MockUnitService.Object, MockOfferService.Object);
         }
     }
 }
